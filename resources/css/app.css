@@ -1,0 +1,15 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+.blog ul {
+    @apply list-disc ms-6 my-3;
+}
+.blog ol {
+    @apply list-decimal ms-6 my-3;
+}
+
+.blog a {
+    @apply underline;
+}
