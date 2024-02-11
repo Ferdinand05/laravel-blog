@@ -13,3 +13,7 @@
 .blog a {
     @apply underline;
 }
+
+.active {
+    @apply text-blue-700;
+}
