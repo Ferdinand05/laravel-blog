@@ -7,6 +7,11 @@
                 <h5 class="text-gray-700 text-sm dark:text-gray-500">Publish at {{ $post->created_at->format('d F Y') }}
                 </h5>
             </div>
+            {{-- content image --}}
+            <div>
+                <img class="h-auto max-w-lg me-auto" src="/storage/{{ $post->content_image }}"
+                    alt="{{ $post->content_image }}">
+            </div>
             <div class="dark:text-gray-400 blog ">
                 <p class=" first-letter:text-3xl dark:text-gray-300 ">{!! $post->content !!}</p>
             </div>

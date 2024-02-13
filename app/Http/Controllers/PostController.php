@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
 use Mews\Purifier\Purifier as PurifierPurifier;
@@ -17,7 +18,7 @@ class PostController extends Controller
     public function index()
     {
 
-        return view('post.index', ['posts' => Post::paginate(5)]);
+        return view('post.index', ['posts' => Post::orderBy('created_at', 'desc')->paginate(5)]);
     }
 
     /**
@@ -36,13 +37,21 @@ class PostController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'min:3', 'max:255'],
             'content' => ['string', 'required'],
-            'category' => ['required']
+            'category' => ['required'],
+            'content_image' => ['image', 'mimes:png,jpg,jpeg']
         ]);
+
+        if ($request->hasFile('content_image')) {
+            $image = $request->file('content_image')->store('post-images');
+        } else {
+            $image = null;
+        }
 
         Post::create([
             'title' => Purifier::clean($request->title),
             'slug' => Str::slug($request->title) . auth()->id(),
             'content' => Purifier::clean($request->content),
+            'content_image' => $image,
             'category_id' => $request->category,
             'author' => auth()->user()->email,
             'user_id' => auth()->id()
@@ -64,15 +73,35 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('post.edit', ['post' => $post, 'categories' => Category::all()]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $slug)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'min:3', 'max:255'],
+            'content' => ['required', 'string'],
+            'category' => ['required'],
+            'content_image' => ['image', 'mimes:png,jpg,jpeg']
+        ]);
+
+        if ($request->hasFile('content_image')) {
+            $image = $request->file('content_image')->store('post-images');
+        } else {
+            $image = $request->old_content_image;
+        }
+        Post::whereSlug($slug)->update([
+            'title' =>  Purifier::clean($request->title),
+            'content' => Purifier::clean($request->content),
+            'content_image' => $image,
+            'category_id' => $request->category,
+            'slug' => Str::slug($request->title . auth()->id())
+        ]);
+
+        return redirect()->route('posts.index')->with('success', 'Post has been Updated.');
     }
 
     /**

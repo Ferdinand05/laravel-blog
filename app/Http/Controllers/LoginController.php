@@ -17,7 +17,9 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->boolean('remember_me'))) {
+
             return redirect(RouteServiceProvider::HOME)->with('success', 'You are Logged in');
         }
 

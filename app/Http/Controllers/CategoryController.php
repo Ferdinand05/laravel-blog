@@ -30,7 +30,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => ['required', 'string', 'min:3']
+            'category' => ['required', 'string', 'min:3', 'alpha_dash']
         ]);
 
         Category::create([
@@ -63,7 +63,7 @@ class CategoryController extends Controller
     {
 
         $request->validate([
-            'category' => ['required', 'string', 'min:3']
+            'category' => ['required', 'string', 'min:3', 'alpha_dash']
         ]);
 
         Category::whereId($id)->update([

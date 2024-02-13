@@ -5,8 +5,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UpdatePassword;
+use App\Http\Controllers\UpdatePasswordController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +33,11 @@ Route::middleware('auth')->group(function () {
 
     // posts
     Route::resource('posts', PostController::class);
+
+    // user
+    Route::get('profile/{id}', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/updatepassword/{id}', [UpdatePasswordController::class, 'update'])->name('password.update');
 });
 
 
@@ -36,7 +45,9 @@ Route::middleware('auth')->group(function () {
 // home
 Route::get('/', HomeController::class)->name('home');
 // blog
-Route::get('blog', BlogController::class)->name('blog');
+Route::get('blog', [BlogController::class, 'index'])->name('blog');
+
+
 
 // auth
 Route::get('login', [LoginController::class, 'login'])->name('login');

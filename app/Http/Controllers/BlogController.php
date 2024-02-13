@@ -10,9 +10,19 @@ class BlogController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function index(Request $request)
     {
+        $keyword = $request->get('posts');
 
-        return view('blog.index', ['posts' => Post::latest()->paginate(9)]);
+        if ($keyword) {
+
+            $posts = Post::query()
+                ->where('title', 'like', "%$keyword%")
+                ->orWhere('content', "like", "%$keyword%")->paginate(9);
+        } else {
+            $posts = Post::latest()->paginate(9);
+        }
+
+        return view('blog.index', ['posts' => $posts]);
     }
 }
