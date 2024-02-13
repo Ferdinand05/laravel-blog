@@ -37,8 +37,6 @@
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                             aria-describedby="file_input_help" id="file_input" type="file" name="content_image">
                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG or JPEG
-                            <input type="text" name="old_content_image" id=""
-                                value="{{ $post->content_image }}" hidden>
                         </p>
                         @error('content_image')
                             <small class="text-red-600">{{ $message }}</small>

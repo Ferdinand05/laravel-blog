@@ -8,12 +8,12 @@
                 </h5>
             </div>
             {{-- content image --}}
-            <div>
-                <img class="h-auto max-w-lg me-auto" src="/storage/{{ $post->content_image }}"
+            <div class="mb-3">
+                <img class="h-auto max-w-lg me-auto rounded-md" src="/storage/{{ $post->content_image }}"
                     alt="{{ $post->content_image }}">
             </div>
-            <div class="dark:text-gray-400 blog ">
-                <p class=" first-letter:text-3xl dark:text-gray-300 ">{!! $post->content !!}</p>
+            <div class="dark:text-gray-400 blog space-y-2">
+                <p class=" first-letter:text-3xl dark:text-gray-300">{!! $post->content !!}</p>
             </div>
         </div>
     </x-container>

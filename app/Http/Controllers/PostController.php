@@ -15,10 +15,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-
-        return view('post.index', ['posts' => Post::orderBy('created_at', 'desc')->paginate(5)]);
+        $keyword = $request->get('keyword');
+        if ($keyword) {
+            $posts = Post::where('title', 'like', "%$keyword%")->orWhere('content', 'like', "%$keyword%")
+                ->orWhere('author', 'like', "%$keyword%")->orWhere('created_at', 'like', "%$keyword%")->orderBy('created_at', 'desc')->paginate(7);
+        } else {
+            $posts =  Post::orderBy('created_at', 'desc')->paginate(7);
+        }
+        return view('post.index', ['posts' => $posts]);
     }
 
     /**
@@ -88,10 +94,18 @@ class PostController extends Controller
             'content_image' => ['image', 'mimes:png,jpg,jpeg']
         ]);
 
+        $userPost = Post::where('slug', $slug)->first();
+
+
+
         if ($request->hasFile('content_image')) {
             $image = $request->file('content_image')->store('post-images');
+
+            if (!$userPost->content_image == null) {
+                Storage::delete($userPost->content_image);
+            }
         } else {
-            $image = $request->old_content_image;
+            $image = $userPost->content_image;
         }
         Post::whereSlug($slug)->update([
             'title' =>  Purifier::clean($request->title),
@@ -109,7 +123,9 @@ class PostController extends Controller
      */
     public function destroy($slug)
     {
-        Post::whereSlug($slug)->delete();
+        $post = Post::where('slug', $slug)->first();
+        Storage::delete($post->content_image);
+        $post->delete();
         return back()->with('success', 'Post has been deleted.');
     }
 }

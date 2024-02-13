@@ -68,20 +68,25 @@
             <section class="mt-10 grid grid-cols-1 gap-y-5 md:grid-cols-2 lg:grid-cols-3 md:gap-5">
 
                 @foreach ($posts as $post)
-                    <a href="{{ route('posts.show', $post->slug) }}"
-                        class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                        <span
-                            class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ $post->category->category }}</span>
-
-                        <div class="dark:text-gray-400">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-200">
-                                {!! clean($post->title) !!}</h5>
-                            <p class="font-normal text-gray-600 dark:text-gray-300">
-                                {!! clean(Str::limit($post->content, 150, ' ....')) !!}
-                            </p>
+                    <div
+                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                        <a href="{{ route('posts.show', $post->slug) }}">
+                            <img class="rounded-t-lg" src="/storage/{{ $post->content_image }}"
+                                alt="{{ $post->title }}" />
+                        </a>
+                        <div class="p-5">
+                            <a href="{{ route('posts.show', $post->slug) }}">
+                                <h5
+                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:text-blue-700 hover:duration-200">
+                                    {!! $post->title !!}</h5>
+                            </a>
+                            <div class="blog dark:text-gray-500">
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                    {!! Str::limit($post->content, 100, '...') !!}</p>
+                            </div>
+                            <small class="text-gray-500">{{ $post->created_at->diffForHumans() }}</small>
                         </div>
-                        <small class="text-gray-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</small>
-                    </a>
+                    </div>
                 @endforeach
 
             </section>
