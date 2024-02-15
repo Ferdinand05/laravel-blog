@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        return view('category.index', ['categories' => Category::paginate(4)]);
+        return view('category.index', ['categories' => Category::with('post')->paginate('5')]);
     }
 
     /**

@@ -16,8 +16,7 @@ class BlogController extends Controller
 
         if ($keyword) {
 
-            $posts = Post::query()
-                ->where('title', 'like', "%$keyword%")
+            $posts = Post::with(['category', 'user'])->where('title', 'like', "%$keyword%")
                 ->orWhere('content', "like", "%$keyword%")->paginate(9);
         } else {
             $posts = Post::latest()->paginate(9);

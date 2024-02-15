@@ -10,6 +10,7 @@ class Category extends Model
     use HasFactory;
     protected $fillable = ['category'];
 
+    // 1 kategori memiliki banyak post
     public function post()
     {
         return  $this->hasMany(Post::class, 'category_id');

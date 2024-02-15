@@ -43,6 +43,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // 1 user memilik banyak post
     public function post()
     {
         return $this->hasMany(Post::class, 'user_id');

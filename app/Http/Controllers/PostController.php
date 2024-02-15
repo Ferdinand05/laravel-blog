@@ -19,10 +19,10 @@ class PostController extends Controller
     {
         $keyword = $request->get('keyword');
         if ($keyword) {
-            $posts = Post::where('title', 'like', "%$keyword%")->orWhere('content', 'like', "%$keyword%")
+            $posts = Post::with(['category', 'user'])->where('title', 'like', "%$keyword%")->orWhere('content', 'like', "%$keyword%")
                 ->orWhere('author', 'like', "%$keyword%")->orWhere('created_at', 'like', "%$keyword%")->orderBy('created_at', 'desc')->paginate(7);
         } else {
-            $posts =  Post::orderBy('created_at', 'desc')->paginate(7);
+            $posts =  Post::with(['category', 'user'])->orderBy('created_at', 'desc')->paginate(7);
         }
         return view('post.index', ['posts' => $posts]);
     }
@@ -71,7 +71,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post.show', ['post' => $post, 'posts' => Post::latest()->limit(3)->get()]);
+        return view('post.show', ['post' => $post, 'posts' => Post::with(['user', 'category'])->latest()->limit(3)->get()]);
     }
 
     /**
