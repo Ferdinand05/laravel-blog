@@ -1,15 +1,14 @@
 <x-app-layout title="Create Post">
     <x-container>
-        <div class="pb-10 flex justify-between items-center">
+        <div>
+            {{ Breadcrumbs::render('create.post') }}
+        </div>
+        <div class="pb-10">
             <div class="dark:text-white">
                 <h1 class="text-3xl font-bold">Create your own post</h1>
                 <p class="font-light text-start">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus,
                     facere.
                 </p>
-            </div>
-            <div>
-                <a href="{{ route('posts.index') }}"
-                    class="rounded py-1 px-3 bg-red-500 text-white hover:bg-red-600 duration-300">Back</a>
             </div>
         </div>
 

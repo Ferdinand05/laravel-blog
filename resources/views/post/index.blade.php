@@ -1,5 +1,11 @@
 <x-app-layout title="Post">
+
     <x-container>
+
+        <div>
+            {{ Breadcrumbs::render('posts') }}
+        </div>
+
         <div class="flex justify-between items-center dark:text-white mb-5">
             <div>
                 <h1 class="text-3xl font-bold">Create Post</h1>

@@ -1,15 +1,15 @@
 <x-app-layout title="Edit Post">
     <x-container>
-        <div class="pb-10 flex justify-between items-center">
+        {{-- breadcrumbs --}}
+        <div>
+            {{ Breadcrumbs::render('edit.post', $post) }}
+        </div>
+        <div class="pb-10">
             <div class="dark:text-white">
                 <h1 class="text-3xl font-bold">Edit Post</h1>
                 <p class="font-light text-start">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus,
                     facere.
                 </p>
-            </div>
-            <div>
-                <a href="{{ route('posts.index') }}"
-                    class="rounded py-1 px-3 bg-red-500 text-white hover:bg-red-600 duration-300">Back</a>
             </div>
         </div>
 

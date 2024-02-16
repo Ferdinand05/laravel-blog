@@ -1,5 +1,10 @@
 <x-app-layout title="Create Category">
     <x-container>
+
+        <div>
+            {{ Breadcrumbs::render('categories.edit', $category) }}
+        </div>
+
         <div class="flex items-center gap-x-10 my-9 justify-between">
             <h1 class="font-bold text-3xl dark:text-gray-300">Edit Category <span
                     class="text-gray-500">{{ $category->category }}</span></h1>

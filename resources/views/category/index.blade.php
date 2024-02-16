@@ -1,6 +1,9 @@
 <x-app-layout title="Categories | Blogger">
 
     <x-container>
+        <div>
+            {{ Breadcrumbs::render('categories') }}
+        </div>
         <div class="flex  w-full my-10 items-center justify-between">
             <div class="">
                 <h1 class="text-4xl font-bold dark:text-gray-200">Our Categories</h1>

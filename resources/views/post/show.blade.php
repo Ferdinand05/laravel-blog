@@ -1,6 +1,11 @@
 <x-app-layout title="{{ clean($post->title) }}">
     <x-container>
+
         <div class="md:px-40">
+            <div class="my-5">
+                {{ Breadcrumbs::render('show.post', $post) }}
+            </div>
+
             <div class="mb-5">
                 <h5 class="text-gray-700 mb-2 font-semibold dark:text-blue-500">{{ $post->user->name }}</h5>
                 <h1 class="text-2xl md:text-4xl font-bold dark:text-gray-200">{!! $post->title !!}</h1>
