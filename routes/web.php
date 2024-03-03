@@ -28,17 +28,37 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 
-    // categories
-    Route::resource('categories', CategoryController::class);
 
-    // posts
-    Route::resource('posts', PostController::class);
+    // login and has Admin Role
+    Route::middleware('role:admin')->group(function () {
+        // categories
+        Route::resource('categories', CategoryController::class);
+
+        // posts
+        Route::resource('posts', PostController::class);
+    });
+
+
+
+
 
     // user
     Route::get('profile/{id}', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('profile/updatepassword/{id}', [UpdatePasswordController::class, 'update'])->name('password.update');
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

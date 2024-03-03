@@ -1,7 +1,39 @@
 <x-app-layout title="Profile">
 
-    {{-- profile picture --}}
 
+
+    {{-- user posts --}}
+    <div class=" md:px-24 px-4 mt-36 py-4">
+        <h2 class="dark:text-gray-400 text-gray-700  font-semibold text-xl md:text-2xl">Your Posts</h2>
+        <p class="text-gray-500 text-sm md:text-lg font-light">Control your posts!</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3  dark:text-gray-500 px-4 md:px-24 gap-5">
+        @foreach ($posts as $post)
+            <a href="{{ route('posts.show', $post->slug) }}"
+                class="border rounded border-gray-300 dark:border-gray-500 p-3 shadow">
+                <h4 class="font-semibold text-xl dark:text-gray-400 pb-1">{!! $post->title !!}</h4>
+                <div class="text-sm">
+                    <p>{!! Str::limit($post->content, 70, '....') !!}</p>
+                </div>
+                <div class="text-xs pt-2 text-gray-400 dark:text-gray-500">
+                    {{ $post->created_at->toFormattedDateString() }}
+                </div>
+                @can('edit post')
+                    <div class="flex mt-5 gap-x-2">
+                        <form action="{{ route('posts.edit', $post->slug) }}" method="get">
+                            @csrf
+                            <button type="submit" class="px-3 py-1 bg-blue-600 text-white rounded">Edit</button>
+                        </form>
+                        <form action="{{ route('posts.destroy', $post->slug) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded">Delete</button>
+                        </form>
+                    </div>
+                @endcan
+            </a>
+        @endforeach
+    </div>
 
 
     {{-- profile & password --}}

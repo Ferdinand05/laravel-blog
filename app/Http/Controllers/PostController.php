@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
 use Mews\Purifier\Purifier as PurifierPurifier;
+use PDO;
 
 class PostController extends Controller
 {
@@ -79,7 +80,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('post.edit', ['post' => $post, 'categories' => Category::all()]);
+        if ($post->user_id == auth()->id() || auth()->user()->hasRole('admin')) {
+            return view('post.edit', ['post' => $post, 'categories' => Category::all()]);
+        } else {
+            return back()->with('fail', "you can't Edit other people post!");
+        }
     }
 
     /**
@@ -95,7 +100,6 @@ class PostController extends Controller
         ]);
 
         $userPost = Post::where('slug', $slug)->first();
-
 
 
         if ($request->hasFile('content_image')) {
@@ -123,9 +127,17 @@ class PostController extends Controller
      */
     public function destroy($slug)
     {
+
         $post = Post::where('slug', $slug)->first();
-        Storage::delete($post->content_image);
-        $post->delete();
-        return back()->with('success', 'Post has been deleted.');
+
+        if ($post->user_id == auth()->id() || auth()->user()->hasRole('admin')) {
+            if ($post->content_image) {
+                Storage::delete($post->content_image);
+            }
+            $post->delete();
+            return back()->with('success', 'Post has been deleted.');
+        } else {
+            return back()->with('fail', "You can't delete other peple post!");
+        }
     }
 }
